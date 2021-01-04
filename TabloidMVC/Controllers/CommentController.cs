@@ -13,10 +13,10 @@ namespace TabloidMVC.Controllers
     {
         private readonly ICommentRepository _commentRepo;
 
-        // ASP.NET will give us an instance of our Dog Repository. This is called "Dependency Injection"
-        public CommentController(ICommentRepository categoryRepo)
+        
+        public CommentController(ICommentRepository commentRepo)
         {
-            _commentRepo = categoryRepo;
+            _commentRepo = commentRepo;
         }
 
         // GET: Comment
