@@ -109,8 +109,34 @@ namespace TabloidMVC.Controllers
             {
                 postViewModel.Categories = _categoryRepository.GetAll();
                 return View(postViewModel);
-    }
-}
+            }
+        }
+
+
+        // GET: Post/Delete/5
+        public ActionResult Delete(int id)
+        {
+            Post post = _postRepository.GetPublishedPostById(id);
+
+            return View(post);
+        }
+
+        // POST: Post/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, Post post)
+        {
+            try
+            {
+                _postRepository.DeletePost(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(post);
+            }
+        }
 
         public IActionResult UserPostIndex()
         {
