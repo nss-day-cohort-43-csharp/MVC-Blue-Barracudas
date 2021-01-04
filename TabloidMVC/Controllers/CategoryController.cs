@@ -15,7 +15,7 @@ namespace TabloidMVC.Controllers
     {
         private readonly ICategoryRepository _categoryRepo;
 
-        // ASP.NET will give us an instance of our Dog Repository. This is called "Dependency Injection"
+        //Gets an instance of our Category Repository and makes it accessible to the rest of the controller
         public CategoryController(ICategoryRepository categoryRepo)
         {
             _categoryRepo = categoryRepo;
@@ -43,15 +43,17 @@ namespace TabloidMVC.Controllers
         // POST: CategoryController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Category category)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _categoryRepo.Add(category);
+
+                return RedirectToAction(nameof(Index), "Category");
             }
             catch
             {
-                return View();
+                return View(category);
             }
         }
 
