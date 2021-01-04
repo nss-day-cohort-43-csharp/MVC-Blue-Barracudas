@@ -68,6 +68,13 @@ namespace TabloidMVC.Controllers
             }
         }
 
+        public IActionResult UserPostIndex()
+        {
+            int currentUserId = GetCurrentUserProfileId();
+            var posts = _postRepository.GetCurrentUserPosts(currentUserId);
+            return View(posts);
+        }
+
         private int GetCurrentUserProfileId()
         {
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
