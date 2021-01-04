@@ -1,10 +1,10 @@
-﻿@model IEnumerable<TabloidMVC.Models.Comment>
+﻿@model TabloidMVC.Models.ViewModels.PostCommentsViewModel
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>@Model.Post.Title</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -13,22 +13,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Subject)
+                Subject
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                Content
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserProfile.DisplayName)
+                User
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreateDateTime)
+                Created On
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model) {
+        @foreach (var item in Model.Comments) {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Subject)
@@ -51,3 +51,5 @@
 }
     </tbody>
 </table>
+
+<a class="btn btn-outline-dark" href="@Url.Action("Details", "Post", new { Id = Model.Comments[0].PostId })">Back</a>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TabloidMVC.Models;
+using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
 
 namespace TabloidMVC.Controllers
@@ -12,18 +13,24 @@ namespace TabloidMVC.Controllers
     public class CommentController : Controller
     {
         private readonly ICommentRepository _commentRepo;
+        private readonly IPostRepository _postRepo;
 
         
-        public CommentController(ICommentRepository commentRepo)
+        public CommentController(ICommentRepository commentRepo, IPostRepository postRepo)
         {
             _commentRepo = commentRepo;
+            _postRepo = postRepo;
         }
 
         // GET: Comment
         public ActionResult Index(int postId)
         {
-            List<Comment> comments = _commentRepo.GetAllPostComments(postId);
-            return View(comments);
+            PostCommentsViewModel vm = new PostCommentsViewModel()
+            {
+                Post = _postRepo.GetPublishedPostById(postId),
+                Comments = _commentRepo.GetAllPostComments(postId)
+            };
+            return View(vm);
         }
 
         // GET: Comment/Details/5
