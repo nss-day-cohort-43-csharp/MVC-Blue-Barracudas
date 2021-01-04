@@ -242,5 +242,43 @@ namespace TabloidMVC.Repositories
                 }
             };
         }
+
+
+        public void UpdatePost(Post post)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                    UPDATE Post
+                    SET
+                        Title = @title,
+                        Content = @content,
+                        ImageLocation = @imageLocation,
+                        CreateDateTime = @createDate,
+                        PublishDateTime = @publishDate,
+                        IsApproved = @isApproved,
+                        CategoryId = @categoryId,
+                        UserProfileId = @userId
+                    WHERE Id = @id";
+
+                    cmd.Parameters.AddWithValue("@title", post.Title);
+                    cmd.Parameters.AddWithValue("@content", post.Content);
+                    cmd.Parameters.AddWithValue("@imageLocation", DbUtils.ValueOrDBNull(post.ImageLocation));
+                    cmd.Parameters.AddWithValue("@createDate", DateTime.UtcNow) ;
+                    cmd.Parameters.AddWithValue("@publishDate", post.PublishDateTime);
+                    cmd.Parameters.AddWithValue("@isApproved", true);
+                    cmd.Parameters.AddWithValue("@categoryId", post.CategoryId);
+                    cmd.Parameters.AddWithValue("@userId", post.UserProfileId);
+                    cmd.Parameters.AddWithValue("@id", post.Id);
+
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
