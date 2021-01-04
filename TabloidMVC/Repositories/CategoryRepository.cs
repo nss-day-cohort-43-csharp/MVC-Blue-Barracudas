@@ -122,7 +122,7 @@ namespace TabloidMVC.Repositories
         }
 
         //Deletes a category from the database
-        public void DeleteCategory(int categoryId)
+        public void Delete(int categoryId)
         {
             using (SqlConnection conn = Connection)
             {
