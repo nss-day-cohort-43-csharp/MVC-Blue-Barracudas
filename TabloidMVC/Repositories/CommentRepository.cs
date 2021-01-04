@@ -26,7 +26,8 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"SELECT c.Id, PostId, UserProfileId, DisplayName, Subject, Content, c.CreateDateTime
                                         FROM Comment c
                                         LEFT JOIN UserProfile u ON u.Id = UserProfileId
-                                        WHERE PostId = @postId";
+                                        WHERE PostId = @postId
+                                        ORDER BY CreateDateTime DESC";
                     cmd.Parameters.AddWithValue("postId", postId);
 
                     SqlDataReader reader = cmd.ExecuteReader();
