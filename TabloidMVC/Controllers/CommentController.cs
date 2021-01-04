@@ -4,15 +4,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TabloidMVC.Models;
+using TabloidMVC.Repositories;
 
 namespace TabloidMVC.Controllers
 {
     public class CommentController : Controller
     {
-        // GET: Comment
-        public ActionResult Index()
+        private readonly ICommentRepository _commentRepo;
+
+        // ASP.NET will give us an instance of our Dog Repository. This is called "Dependency Injection"
+        public CommentController(ICommentRepository categoryRepo)
         {
-            return View();
+            _commentRepo = categoryRepo;
+        }
+
+        // GET: Comment
+        public ActionResult Index(int postId)
+        {
+            List<Comment> comments = _commentRepo.GetAllPostComments(postId);
+            return View(comments);
         }
 
         // GET: Comment/Details/5
