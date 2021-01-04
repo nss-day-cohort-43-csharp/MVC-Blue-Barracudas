@@ -36,6 +36,6 @@
         <section class="row post__content">
             <p class="col-sm-12 mt-5">@Html.DisplayFor(model => model.Content)</p>
         </section>
-        <input type="button" class=" btn btn-danger" value="Delete Dog" onclick="location.href='@Url.Action("Index", "Comment")' +  '/@Model.Id'" />
+        <input type="button" class=" btn" value="Comments" onclick="location.href='@Url.Action("Index", "Comment")' +  '/@Model.Id'" />
     </div>
 </div>
