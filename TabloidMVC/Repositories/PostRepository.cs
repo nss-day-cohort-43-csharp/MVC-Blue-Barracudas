@@ -33,7 +33,8 @@ namespace TabloidMVC.Repositories
                               LEFT JOIN Category c ON p.CategoryId = c.id
                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()";
+                        WHERE IsApproved = 1 AND PublishDateTime < SYSDATETIME()
+                        ORDER BY p.CreateDateTime DESC";
                     var reader = cmd.ExecuteReader();
 
                     var posts = new List<Post>();
@@ -71,7 +72,8 @@ namespace TabloidMVC.Repositories
                               LEFT JOIN Category c ON p.CategoryId = c.id
                               LEFT JOIN UserProfile u ON p.UserProfileId = u.id
                               LEFT JOIN UserType ut ON u.UserTypeId = ut.id
-                        WHERE p.UserProfileId = @userProfileId";
+                        WHERE p.UserProfileId = @userProfileId
+                        ORDER BY p.CreateDateTime DESC";
 
                     cmd.Parameters.AddWithValue("@userProfileId", userProfileId);
                     var reader = cmd.ExecuteReader();
