@@ -23,7 +23,7 @@ namespace TabloidMVC.Repositories
                 using(var cmd = conn.CreateCommand())
                 {
                     // create the sql command
-                    cmd.CommandText = @"SELECT Id, PostId, UserProfileId, DisplayName, Subject, Content, CreateDateTime
+                    cmd.CommandText = @"SELECT c.Id, PostId, UserProfileId, DisplayName, Subject, Content, c.CreateDateTime
                                         FROM Comment c
                                         LEFT JOIN UserProfile u ON u.Id = UserProfileId
                                         WHERE PostId = @postId";
