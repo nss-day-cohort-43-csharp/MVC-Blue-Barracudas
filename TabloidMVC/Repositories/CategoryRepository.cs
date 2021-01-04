@@ -8,6 +8,8 @@ namespace TabloidMVC.Repositories
     public class CategoryRepository : BaseRepository, ICategoryRepository
     {
         public CategoryRepository(IConfiguration config) : base(config) { }
+
+        //Get all Categories and order them by name
         public List<Category> GetAll()
         {
             using (var conn = Connection)
@@ -35,6 +37,8 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+
+        //Adds a category into the database
         public void Add(Category category)
         {
             using (SqlConnection conn = Connection)
