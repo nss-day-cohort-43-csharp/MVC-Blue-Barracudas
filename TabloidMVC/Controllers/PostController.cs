@@ -97,20 +97,20 @@ namespace TabloidMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, PostCreateViewModel postViewModel)
         {
-            
-            
-            //try
-            //{
+
+
+            try
+            {
                 _postRepository.UpdatePost(postViewModel.Post);
 
                 return RedirectToAction("Index");
-            //}
-            //catch (Exception ex)
-            //{
-            //    postViewModel.Categories = _categoryRepository.GetAll();
-            //    return View(postViewModel);
-            //}
         }
+            catch (Exception ex)
+            {
+                postViewModel.Categories = _categoryRepository.GetAll();
+                return View(postViewModel);
+    }
+}
 
         public IActionResult UserPostIndex()
         {
