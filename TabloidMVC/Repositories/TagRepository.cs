@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TabloidMVC.Models;
 
 namespace TabloidMVC.Repositories
@@ -32,7 +33,8 @@ namespace TabloidMVC.Repositories
                         tags.Add(tag);
                     }
                     reader.Close();
-                    return tags;
+                    List<Tag> SortedList = tags.OrderBy(o => o.Name).ToList();
+                    return SortedList;
                 }
 
             }
