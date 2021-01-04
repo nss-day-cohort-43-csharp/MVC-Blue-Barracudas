@@ -18,11 +18,16 @@ namespace TabloidMVC.Repositories
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"Select Id, [Name] FROM Tag";
+                    //get a sorted list of tags
+                    cmd.CommandText = @"Select Id, [Name] 
+                                        FROM Tag 
+                                        ORDER BY [Name]";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
+                    //list to store tags
                     List<Tag> tags = new List<Tag>();
+
                     while (reader.Read())
                     {
                         Tag tag = new Tag
@@ -33,8 +38,7 @@ namespace TabloidMVC.Repositories
                         tags.Add(tag);
                     }
                     reader.Close();
-                    List<Tag> SortedList = tags.OrderBy(o => o.Name).ToList();
-                    return SortedList;
+                    return tags;
                 }
 
             }
