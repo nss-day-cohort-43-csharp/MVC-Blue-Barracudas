@@ -2,37 +2,22 @@
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TabloidMVC.Models;
 
 namespace TabloidMVC.Repositories
 {
-    public class TagRepository : ITagRepository
+    public class TagRepository : BaseRepository, ITagRepository
     {
-        private readonly IConfiguration _config;
-
-        public TagRepository(IConfiguration config)
-        {
-            _config = config;
-        }
-
-        public SqlConnection Connection
-        {
-            get
-            {
-                return new SqlConnection(_config.GetConnectionString("DefaultConnection"));
-            }
-        }
+        public TagRepository(IConfiguration config) : base(config) { }
 
         public List<Tag> GetAllTags()
         {
-            using (SqlConnection conn = Connection)
+            using (var conn = Connection)
             {
                 conn.Open();
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"Select Id, [Name} FROM Tag";
+                    cmd.CommandText = @"Select Id, [Name] FROM Tag";
 
                     SqlDataReader reader = cmd.ExecuteReader();
 

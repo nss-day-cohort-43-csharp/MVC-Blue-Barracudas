@@ -12,7 +12,7 @@ namespace TabloidMVC.Controllers
     {
         private readonly ITagRepository _tagRepo;
 
-        TagController(ITagRepository tagRepo)
+        public TagController(ITagRepository tagRepo)
         {
             _tagRepo = tagRepo;
         }
