@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TabloidMVC.Models;
 using TabloidMVC.Repositories;
 using System.Linq;
+using System.Globalization;
 
 namespace TabloidMVC.Controllers
 {
@@ -54,6 +55,10 @@ namespace TabloidMVC.Controllers
 
                 if (isDuplicate == false)
                 {
+                    //title case tag name
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                    tag.Name = textInfo.ToTitleCase(tag.Name);
+
                     _tagRepo.AddTag(tag);
                 }
 
