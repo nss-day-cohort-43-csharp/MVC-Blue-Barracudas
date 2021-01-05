@@ -59,9 +59,37 @@ namespace TabloidMVC.Repositories
             }
         }
 
+
         public void Delete(int id)
         {
+        }
 
+
+        // adds a given comment to the database
+        public void Add(Comment comment)
+        {
+            // create and open a connection
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                //create a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // create the sql command
+                    cmd.CommandText = @"INSERT INTO Comment (PostId, UserProfileId, [Subject], Content, CreateDateTime)
+                                        VALUES (@postId, @userId, @subject, @content, @date)";
+                    cmd.Parameters.AddWithValue("@postId", comment.PostId);
+                    cmd.Parameters.AddWithValue("@userId", comment.UserProfileId);
+                    cmd.Parameters.AddWithValue("@subject", comment.Subject);
+                    cmd.Parameters.AddWithValue("@content", comment.Content);
+                    cmd.Parameters.AddWithValue("@date", comment.CreateDateTime);
+
+                    //execute the insert command
+                    cmd.ExecuteNonQuery();
+
+                }
+            }
         }
     }
 }
