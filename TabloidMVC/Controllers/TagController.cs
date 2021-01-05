@@ -39,11 +39,26 @@ namespace TabloidMVC.Controllers
             try
             {
                 List<Tag> tags = _tagRepo.GetAllTags();
-                ////check for duplicate tags
-                //Tag duplicate = tags.Contains(t => t.Name == tag.Name);
+                bool isDuplicate = false;
+                //check for duplicate tags
+                foreach (Tag t in tags)
+                {
+                    if (t.Name.ToLower() == tag.Name.ToLower())
+                    {
+                        //get duplicate taginfo
+                        //return to list dont add duplicate
+                        isDuplicate = true; 
+                    }
+                }
 
-                _tagRepo.AddTag(tag);
+
+                if (isDuplicate == false)
+                {
+                    _tagRepo.AddTag(tag);
+                }
+
                 return RedirectToAction(nameof(Index));
+
             }
             catch (Exception ex)
             {
