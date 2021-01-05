@@ -28,12 +28,23 @@ namespace TabloidMVC.Controllers
         // GET: Comment
         public ActionResult Index(int postId)
         {
-            PostCommentsViewModel vm = new PostCommentsViewModel()
+            try
             {
-                Post = _postRepo.GetPublishedPostById(postId),
-                Comments = _commentRepo.GetAllPostComments(postId)
-            };
-            return View(vm);
+                PostCommentsViewModel vm = new PostCommentsViewModel()
+                {
+                    Post = _postRepo.GetPublishedPostById(postId),
+                    Comments = _commentRepo.GetAllPostComments(postId)
+                };
+                if(vm.Post == null)
+                {
+                    throw new Exception();
+                }
+                return View(vm); 
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         // GET: Comment/Details/5
@@ -102,23 +113,24 @@ namespace TabloidMVC.Controllers
         // GET: Comment/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Comment comment = _commentRepo.GetCommentById(id);
+            return View(comment);
         }
 
         // POST: Comment/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Comment comment)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
+                // delete comment and redirect to comments index
+                _commentRepo.Delete(id);
+                return RedirectToAction(nameof(Index), new { postId = comment.PostId });
             }
             catch
             {
-                return View();
+                return View(comment);
             }
         }
 
