@@ -52,7 +52,7 @@ namespace TabloidMVC.Controllers
                     }
                 }
 
-
+                //tag is nota duplicate
                 if (isDuplicate == false)
                 {
                     //title case tag name
@@ -85,7 +85,29 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                _tagRepo.Edit(tag);
+                List<Tag> tags = _tagRepo.GetAllTags();
+                bool isDuplicate = false;
+                //check for duplicate tags
+                foreach (Tag t in tags)
+                {
+                    if (t.Name.ToLower() == tag.Name.ToLower())
+                    {
+                        //get duplicate taginfo
+                        //return to list dont add duplicate
+                        isDuplicate = true;
+                    }
+                }
+
+                //edited tag is not a duplicate
+                if (isDuplicate == false)
+                {
+                    //title case tag name
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                    tag.Name = textInfo.ToTitleCase(tag.Name);
+
+                    _tagRepo.Edit(tag);
+                }
+           
                 return RedirectToAction(nameof(Index));
             }
             catch
