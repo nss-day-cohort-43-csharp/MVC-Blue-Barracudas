@@ -124,14 +124,14 @@ namespace TabloidMVC.Controllers
         // POST: Comment/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, Comment comment)
+        public ActionResult Delete(int postId, Comment comment)
         {
 
             try
             {
                 // delete comment and redirect to comments index
                 _commentRepo.Delete(comment.Id);
-                return RedirectToAction(nameof(Index), new { postId = id });
+                return RedirectToAction(nameof(Index), new { postId = postId });
             }
             catch
             {
