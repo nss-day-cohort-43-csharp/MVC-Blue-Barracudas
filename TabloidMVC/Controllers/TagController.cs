@@ -56,7 +56,8 @@ namespace TabloidMVC.Controllers
         // GET: TagController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Tag tag = _tagRepo.GetTagById(id);
+            return View(tag);
         }
 
         // POST: TagController/Edit/5
@@ -66,13 +67,12 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                Tag updatedTag = _tagRepo.GetTagById(id);
-                _tagRepo.Edit(updatedTag);
+                _tagRepo.Edit(tag);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
-                return View();
+                return View(tag);
             }
         }
 
