@@ -74,12 +74,12 @@ namespace TabloidMVC.Controllers
         //GET:
         public ActionResult Edit(int id)
         {
-            Post post = _postRepository.GetPublishedPostById(id);
+            Post post = _postRepository.GetPostById(id);
 
-            if (post == null)
-            {
-                return NotFound();
-            }
+            //if (post == null)
+            //{
+            //    return NotFound();
+            //}
 
             List<Category> categories = _categoryRepository.GetAll();
 
@@ -103,6 +103,7 @@ namespace TabloidMVC.Controllers
             {
                 _postRepository.UpdatePost(postViewModel.Post);
 
+                //return RedirectToAction("/");
                 return RedirectToAction("Index");
         }
             catch (Exception ex)
