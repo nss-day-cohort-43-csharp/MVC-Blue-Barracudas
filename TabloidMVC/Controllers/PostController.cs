@@ -2,7 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
+using TabloidMVC.Models;
 using TabloidMVC.Models.ViewModels;
 using TabloidMVC.Repositories;
 
@@ -44,7 +47,7 @@ namespace TabloidMVC.Controllers
         public IActionResult Create()
         {
             var vm = new PostCreateViewModel();
-            vm.CategoryOptions = _categoryRepository.GetAll();
+            vm.Categories = _categoryRepository.GetAll();
             return View(vm);
         }
 
@@ -63,8 +66,76 @@ namespace TabloidMVC.Controllers
             } 
             catch
             {
-                vm.CategoryOptions = _categoryRepository.GetAll();
+                vm.Categories = _categoryRepository.GetAll();
                 return View(vm);
+            }
+        }
+
+        //GET:
+        public ActionResult Edit(int id)
+        {
+            Post post = _postRepository.GetPostById(id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            List<Category> categories = _categoryRepository.GetAll();
+
+            PostCreateViewModel vm = new PostCreateViewModel()
+            {
+                Post = post,
+                Categories = categories
+            };
+
+            return View(vm);
+        }
+
+        // POST: Post/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, PostCreateViewModel postViewModel)
+        {
+
+
+            try
+            {
+                _postRepository.UpdatePost(postViewModel.Post);
+
+                //return RedirectToAction("/");
+                return RedirectToAction("Index");
+        }
+            catch (Exception ex)
+            {
+                postViewModel.Categories = _categoryRepository.GetAll();
+                return View(postViewModel);
+            }
+        }
+
+
+        // GET: Post/Delete/5
+        public ActionResult Delete(int id)
+        {
+            Post post = _postRepository.GetPublishedPostById(id);
+
+            return View(post);
+        }
+
+        // POST: Post/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, Post post)
+        {
+            try
+            {
+                _postRepository.DeletePost(id);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(post);
             }
         }
 
@@ -80,5 +151,9 @@ namespace TabloidMVC.Controllers
             string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
             return int.Parse(id);
         }
+
+
+
+        
     }
 }
