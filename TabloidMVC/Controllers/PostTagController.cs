@@ -55,43 +55,6 @@ namespace TabloidMVC.Models
             return View();
         }
 
-        // GET: PostTagsController/Create
-        public ActionResult Create()
-        {
-            int postId = Int32.Parse(HttpContext.Request.Query["postId"]);
-            int tagId = Int32.Parse(HttpContext.Request.Query["tagId"]);
-            Tag tag = _tagRepo.GetTagById(tagId);
-            Post post = _postRepo.GetPublishedPostById(postId);
-
-            PostTag postTag = new PostTag
-            {
-                PostId = postId,
-                TagId = tagId,
-                Tag = tag,
-                Post = post
-            };
-            return View(postTag);
-        }
-
-        // POST: PostTagsController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(PostTag postTag)
-        {
-            try
-            {
-                postTag.Post = _postRepo.GetPublishedPostById(postTag.PostId);
-                postTag.Tag = _tagRepo.GetTagById(postTag.TagId);
-
-                _postTagRepo.AddTag(postTag);
-                return RedirectToAction("Index", "PostTag", new { @postId = postTag.PostId});
-            }
-            catch (Exception ex)
-            {
-                return View();
-            }
-        }
-
         // GET: PostTagsController/Edit/5
         public ActionResult Edit(int id)
         {
@@ -130,6 +93,22 @@ namespace TabloidMVC.Models
                 return RedirectToAction(nameof(Index));
             }
             catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult AddToPost(PostTag postTag)
+        {
+            try
+            {
+                postTag.Post = _postRepo.GetPublishedPostById(postTag.PostId);
+                postTag.Tag = _tagRepo.GetTagById(postTag.TagId);
+
+                _postTagRepo.AddTag(postTag);
+                return RedirectToAction("Index", "PostTag", new { @postId = postTag.PostId });
+            }
+            catch (Exception ex)
             {
                 return View();
             }

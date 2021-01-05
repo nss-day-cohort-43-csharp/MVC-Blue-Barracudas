@@ -40,9 +40,9 @@
         {
             <tr>
                 <td>@item.Name</td>
-                <td>
-                    @Html.ActionLink("Add", "Create", new { tagId=item.Id, postId=@Model.Post.Id })
-                </td>
+            <td>
+                @Html.ActionLink("Add", "AddToPost", null, new { tagId = item.Id, postId = @Model.Post.Id })
+            </td>
             </tr>
         }
     </tbody>
