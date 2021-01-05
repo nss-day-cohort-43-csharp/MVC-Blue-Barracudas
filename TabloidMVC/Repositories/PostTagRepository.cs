@@ -35,6 +35,11 @@ namespace TabloidMVC.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             TagId =  reader.GetInt32(reader.GetOrdinal("TagId")),
                             PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                            Tag = new Tag
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("TagId")),
+                                Name = reader.GetString(reader.GetOrdinal("TagName"))
+                            }
                         };
                         postTags.Add(postTag);
                     }

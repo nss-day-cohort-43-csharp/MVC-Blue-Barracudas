@@ -13,13 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TagId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostId)
+                @Html.DisplayNameFor(model => model.Tag.Name)
             </th>
             <th></th>
         </tr>
@@ -28,13 +22,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TagId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostId)
+                @Html.DisplayFor(modelItem => item.Tag.Name)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
