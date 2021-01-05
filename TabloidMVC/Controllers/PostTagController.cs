@@ -30,20 +30,22 @@ namespace TabloidMVC.Models
 
             List<PostTag> postTags = _postTagRepo.GetPostTagsbyPostId(postId);;
 
+            //holds tags that are not assigned to post
             List<Tag> tags = _tagRepo.GetAllTags();
 
             //add tagids the are attached to post
             foreach(PostTag pTag in postTags)
             {
                 int tagId = pTag.TagId;
+                //remove the tag  if the Id is found
                 tags.RemoveAll(t => t.Id == tagId);
             }
 
             PostTagIndexViewModel vm = new PostTagIndexViewModel
             {
                 Post = post,
-                PostTags = postTags,
-                Tags = tags
+                PostTags = postTags, //post-tag relationships for this post
+                Tags = tags //unsued tags
             };
 
             return View(vm);
@@ -71,6 +73,7 @@ namespace TabloidMVC.Models
             }
         }
 
+        //used when the ADD but on posttag/index is clicked
         public ActionResult AddToPost(PostTag postTag)
         {
             try

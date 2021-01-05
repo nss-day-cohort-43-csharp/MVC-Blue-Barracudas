@@ -41,6 +41,8 @@
             <tr>
                 <td>@item.Name</td>
             <td>
+                    @*Calls AddToPost function in PostTag Controll - has no view*@
+                    @*Adds posttag on click*@
                 @Html.ActionLink("Add", "AddToPost", null, new { tagId = item.Id, postId = @Model.Post.Id })
             </td>
             </tr>
