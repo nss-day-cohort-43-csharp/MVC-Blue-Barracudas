@@ -76,10 +76,10 @@ namespace TabloidMVC.Controllers
         {
             Post post = _postRepository.GetPostById(id);
 
-            //if (post == null)
-            //{
-            //    return NotFound();
-            //}
+            if (post == null)
+            {
+                return NotFound();
+            }
 
             List<Category> categories = _categoryRepository.GetAll();
 
