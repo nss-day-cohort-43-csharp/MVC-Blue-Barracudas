@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,7 +18,7 @@ namespace TabloidMVC.Controllers
         private readonly ICommentRepository _commentRepo;
         private readonly IPostRepository _postRepo;
 
-        
+
         public CommentController(ICommentRepository commentRepo, IPostRepository postRepo)
         {
             _commentRepo = commentRepo;
@@ -42,25 +43,36 @@ namespace TabloidMVC.Controllers
         }
 
         // GET: Comment/Create
-        public ActionResult Create()
+        public ActionResult Create(int postId)
         {
-            return View();
+            Comment comment = new Comment()
+            {
+                PostId = postId
+            };
+            return View(comment);
         }
 
         // POST: Comment/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Comment comment)
         {
+            //set the userId
+            comment.UserProfileId = GetCurrentUserId();
+
+            //set the create dat
+            comment.CreateDateTime = DateTime.Now;
+
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(Index));
+                // add the comment
+                _commentRepo.Add(comment);
+                return RedirectToAction(nameof(Index), new { postId = comment.PostId });
             }
             catch
             {
-                return View();
+                // if exception, show view with current data
+                return View(comment);
             }
         }
 
@@ -108,6 +120,12 @@ namespace TabloidMVC.Controllers
             {
                 return View();
             }
+        }
+
+        private int GetCurrentUserId()
+        {
+            string id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return int.Parse(id);
         }
     }
 }
