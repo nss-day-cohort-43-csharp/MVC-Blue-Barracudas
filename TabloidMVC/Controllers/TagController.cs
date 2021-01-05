@@ -39,11 +39,8 @@ namespace TabloidMVC.Controllers
             try
             {
                 List<Tag> tags = _tagRepo.GetAllTags();
-                //no duplicate tags
-                Tag duplicateTag = tags.First(tag => tag.Name.ToLower() == tag.Name.ToLower());
-
-                //no strings out 50 chars
-
+                ////check for duplicate tags
+                //Tag duplicate = tags.Contains(t => t.Name == tag.Name);
 
                 _tagRepo.AddTag(tag);
                 return RedirectToAction(nameof(Index));
