@@ -58,19 +58,35 @@ namespace TabloidMVC.Models
         // GET: PostTagsController/Create
         public ActionResult Create()
         {
-            return View();
+            int postId = Int32.Parse(HttpContext.Request.Query["postId"]);
+            int tagId = Int32.Parse(HttpContext.Request.Query["tagId"]);
+            Tag tag = _tagRepo.GetTagById(tagId);
+            Post post = _postRepo.GetPublishedPostById(postId);
+
+            PostTag postTag = new PostTag
+            {
+                PostId = postId,
+                TagId = tagId,
+                Tag = tag,
+                Post = post
+            };
+            return View(postTag);
         }
 
         // POST: PostTagsController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(PostTag postTag)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                postTag.Post = _postRepo.GetPublishedPostById(postTag.PostId);
+                postTag.Tag = _tagRepo.GetTagById(postTag.TagId);
+
+                _postTagRepo.AddTag(postTag);
+                return RedirectToAction("Index", "PostTag", new { @postId = postTag.PostId});
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }

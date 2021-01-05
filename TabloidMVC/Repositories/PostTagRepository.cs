@@ -60,10 +60,10 @@ namespace TabloidMVC.Repositories
                 {
                     cmd.CommandText = @"INSERT INTO PostTag (TagId, PostId)
                         OUTPUT INSERTED.ID
-                        VALUES (@tagId, postId);";
+                        VALUES (@tagId, @postId);";
 
                     cmd.Parameters.AddWithValue("@tagId", postTag.TagId);
-                    cmd.Parameters.AddWithValue("@tpostId", postTag.PostId);
+                    cmd.Parameters.AddWithValue("@postId", postTag.PostId);
                     int id = (int)cmd.ExecuteScalar();
 
                     postTag.Id = id;
