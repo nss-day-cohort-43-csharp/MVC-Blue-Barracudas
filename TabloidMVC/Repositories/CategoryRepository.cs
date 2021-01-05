@@ -49,7 +49,7 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"
                         SELECT Id, [Name]
                         FROM Category
-                        WHERE Id = @id
+                        WHERE Id = @id AND Id != 1
                     ";
 
                     cmd.Parameters.AddWithValue("@id", id);
