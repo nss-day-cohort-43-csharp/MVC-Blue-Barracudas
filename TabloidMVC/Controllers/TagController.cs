@@ -21,12 +21,6 @@ namespace TabloidMVC.Controllers
             return View(tags);
         }
 
-        // GET: TagController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: TagController/Create
         public ActionResult Create()
         {
@@ -40,6 +34,7 @@ namespace TabloidMVC.Controllers
         {
             try
             {
+                //TO DO dtop duplicate tags
                 _tagRepo.AddTag(tag);
                 return RedirectToAction(nameof(Index));
             }
