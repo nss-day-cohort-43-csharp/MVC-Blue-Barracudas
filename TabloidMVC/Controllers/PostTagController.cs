@@ -4,9 +4,11 @@ using System;
 using System.Collections.Generic;
 using TabloidMVC.Repositories;
 using TabloidMVC.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TabloidMVC.Models
 {
+    [Authorize]
     public class PostTagController : Controller
     {
         private readonly IPostTagRepository _postTagRepo;
@@ -77,10 +79,7 @@ namespace TabloidMVC.Models
         public ActionResult AddToPost(PostTag postTag)
         {
             try
-            {
-                postTag.Post = _postRepo.GetPostById(postTag.PostId);
-                postTag.Tag = _tagRepo.GetTagById(postTag.TagId);
-
+            { 
                 _postTagRepo.AddTag(postTag);
                 return RedirectToAction("Index", "PostTag", new { @postId = postTag.PostId });
             }
