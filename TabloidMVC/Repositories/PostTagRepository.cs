@@ -1,11 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TabloidMVC.Models;
-using TabloidMVC.Models.ViewModels;
 
 namespace TabloidMVC.Repositories
 {
@@ -22,8 +18,8 @@ namespace TabloidMVC.Repositories
                     //get a sorted list of tags
                     cmd.CommandText = @"Select pt.Id, TagId, PostId, t.Name AS TagName
                                         FROM PostTag pt
-                                        JOIN Tag t FROM t.Id = TagId 
-                                        JOIN Post p FROM p.Id = PostId 
+                                        JOIN Tag t ON t.Id = TagId 
+                                        JOIN Post p ON p.Id = PostId 
                                         WHERE @Id = PostId";
 
                     cmd.Parameters.AddWithValue("@Id", id);
@@ -39,15 +35,6 @@ namespace TabloidMVC.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             TagId =  reader.GetInt32(reader.GetOrdinal("TagId")),
                             PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
-                            Tag =
-                            {
-                              Id = reader.GetInt32(reader.GetOrdinal("TagId")),
-                              Name =  reader.GetString(reader.GetOrdinal("TagName")),
-                            },
-                            Post =
-                            {
-                              Id = reader.GetInt32(reader.GetOrdinal("PostId")),
-                            }
                         };
                         postTags.Add(postTag);
                     }
