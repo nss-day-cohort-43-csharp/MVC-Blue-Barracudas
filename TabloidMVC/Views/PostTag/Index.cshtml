@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TabloidMVC.Models.PostTag>
+﻿@model TabloidMVC.Models.ViewModels.PostTagIndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -12,24 +12,38 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Tag.Name)
-            </th>
+            <th>Current Tags</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.PostTags) {
         <tr>
+            <td>@item.Tag.Name</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Tag.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
             </td>
         </tr>
 }
+    </tbody>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Unused Tags</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Tags)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
