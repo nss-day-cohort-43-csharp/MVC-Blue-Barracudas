@@ -82,6 +82,50 @@ namespace TabloidMVC.Repositories
             }
         }
 
+        public Comment GetCommentById(int id)
+        {
+            // start a connection
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                //start a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    //create and execute command
+                    cmd.CommandText = @"
+                        SELECT Id, PostId, UserProfileId, [Subject], Content, CreateDateTime
+                        FROM Comment
+                        WHERE Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        Comment comment = new Comment
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            Subject = reader.GetString(reader.GetOrdinal("Subject")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
+                        };
+
+                        reader.Close();
+                        return comment;
+                    }
+                    else
+                    {
+                        reader.Close();
+                        return null;
+                    }
+                }
+            }
+        }
+
 
         // adds a given comment to the database
         public void Add(Comment comment)
