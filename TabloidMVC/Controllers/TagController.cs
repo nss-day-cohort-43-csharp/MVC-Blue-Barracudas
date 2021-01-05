@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using TabloidMVC.Models;
 using TabloidMVC.Repositories;
+using System.Linq;
 
 namespace TabloidMVC.Controllers
 {
@@ -36,7 +38,13 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                //TO DO dtop duplicate tags
+                List<Tag> tags = _tagRepo.GetAllTags();
+                //no duplicate tags
+                Tag duplicateTag = tags.First(tag => tag.Name.ToLower() == tag.Name.ToLower());
+
+                //no strings out 50 chars
+
+
                 _tagRepo.AddTag(tag);
                 return RedirectToAction(nameof(Index));
             }
