@@ -102,7 +102,7 @@ namespace TabloidMVC.Models
         {
             try
             {
-                postTag.Post = _postRepo.GetPublishedPostById(postTag.PostId);
+                postTag.Post = _postRepo.GetPostById(postTag.PostId);
                 postTag.Tag = _tagRepo.GetTagById(postTag.TagId);
 
                 _postTagRepo.AddTag(postTag);
