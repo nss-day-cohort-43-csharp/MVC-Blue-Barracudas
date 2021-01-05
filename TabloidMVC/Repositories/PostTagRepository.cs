@@ -9,7 +9,7 @@ using TabloidMVC.Models.ViewModels;
 
 namespace TabloidMVC.Repositories
 {
-    public class PostTagRepository :BaseRepository
+    public class PostTagRepository :BaseRepository, IPostTagRepository
     {
         public PostTagRepository(IConfiguration config) : base(config) { }
         public List<PostTag> GetPostTagsbyPostId(int id)
