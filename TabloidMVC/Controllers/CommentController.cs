@@ -57,9 +57,6 @@ namespace TabloidMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(Comment comment, int postId)
         {
-            // set the postId of the comment
-            comment.PostId = postId;
-
             //set the userId
             comment.UserProfileId = GetCurrentUserId();
 
