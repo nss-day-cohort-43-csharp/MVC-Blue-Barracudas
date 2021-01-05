@@ -102,10 +102,13 @@ namespace TabloidMVC.Repositories
 
                     SqlDataReader reader = cmd.ExecuteReader();
 
+                    //initialize the comment to null
+                    Comment comment = null;
+
                     // read the data
                     if (reader.Read())
                     {
-                        Comment comment = new Comment
+                        comment = new Comment
                         {
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
@@ -114,14 +117,10 @@ namespace TabloidMVC.Repositories
                             Content = reader.GetString(reader.GetOrdinal("Content")),
                             CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
                         };
-
-                        //close reader and return object
-                        reader.Close();
-                        return comment;
                     }
                     //return null if there is no data to read
                     reader.Close();
-                    return null;          
+                    return comment;          
                 }
             }
         }

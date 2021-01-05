@@ -114,6 +114,10 @@ namespace TabloidMVC.Controllers
         public ActionResult Delete(int id)
         {
             Comment comment = _commentRepo.GetCommentById(id);
+            if(comment == null)
+            {
+                return NotFound();
+            }
             return View(comment);
         }
 
@@ -122,11 +126,12 @@ namespace TabloidMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Comment comment)
         {
+
             try
             {
                 // delete comment and redirect to comments index
-                _commentRepo.Delete(id);
-                return RedirectToAction(nameof(Index), new { postId = comment.PostId });
+                _commentRepo.Delete(comment.Id);
+                return RedirectToAction(nameof(Index), new { postId = id });
             }
             catch
             {
