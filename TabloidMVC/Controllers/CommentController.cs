@@ -55,7 +55,7 @@ namespace TabloidMVC.Controllers
         // POST: Comment/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Comment comment, int postId)
+        public ActionResult Create(Comment comment)
         {
             //set the userId
             comment.UserProfileId = GetCurrentUserId();
@@ -67,7 +67,7 @@ namespace TabloidMVC.Controllers
             {
                 // add the comment
                 _commentRepo.Add(comment);
-                return RedirectToAction(nameof(Index), new { postId = postId });
+                return RedirectToAction(nameof(Index), new { postId = comment.PostId });
             }
             catch
             {
