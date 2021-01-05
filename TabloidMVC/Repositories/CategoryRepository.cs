@@ -49,7 +49,7 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"
                         SELECT Id, [Name]
                         FROM Category
-                        WHERE Id = @id
+                        WHERE Id = @id AND Id != 1
                     ";
 
                     cmd.Parameters.AddWithValue("@id", id);
@@ -111,7 +111,7 @@ namespace TabloidMVC.Repositories
                     cmd.CommandText = @"
                             UPDATE Category
                             SET [Name] = @name 
-                            WHERE Id = @id";
+                            WHERE Id = @id AND Id != 1;";
 
                     cmd.Parameters.AddWithValue("@name", category.Name);
                     cmd.Parameters.AddWithValue("@id", category.Id);
@@ -131,8 +131,11 @@ namespace TabloidMVC.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
+                            UPDATE Post
+                            SET CategoryId = 1
+                            WHERE CategoryId = @id;
                             DELETE FROM Category
-                            WHERE Id = @id
+                            WHERE Id = @id AND Id != 1;
                         ";
 
                     cmd.Parameters.AddWithValue("@id", categoryId);
