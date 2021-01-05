@@ -58,5 +58,10 @@ namespace TabloidMVC.Repositories
                 }
             }
         }
+
+        public void Delete(int id)
+        {
+
+        }
     }
 }
