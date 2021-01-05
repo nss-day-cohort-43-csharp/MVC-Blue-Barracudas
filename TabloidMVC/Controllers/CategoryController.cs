@@ -28,12 +28,6 @@ namespace TabloidMVC.Controllers
             return View(categories);
         }
 
-        // GET: CategoryController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
         // GET: CategoryController/Create
         public ActionResult Create()
         {
@@ -62,7 +56,7 @@ namespace TabloidMVC.Controllers
         {
             Category category = _categoryRepo.GetCategoryById(id);
 
-            if (category == null)
+            if (category == null || id == 1)
             {
                 return NotFound();
             }
@@ -92,7 +86,7 @@ namespace TabloidMVC.Controllers
         {
             Category category = _categoryRepo.GetCategoryById(id);
 
-            if (category == null)
+            if (category == null || id == 1)
             {
                 return NotFound();
             }
