@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
@@ -16,11 +15,13 @@ namespace TabloidMVC.Controllers
     {
         private readonly IPostRepository _postRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IPostTagRepository _postTagRepository;
 
-        public PostController(IPostRepository postRepository, ICategoryRepository categoryRepository)
+        public PostController(IPostRepository postRepository, ICategoryRepository categoryRepository, IPostTagRepository postTagRepository)
         {
             _postRepository = postRepository;
             _categoryRepository = categoryRepository;
+            _postTagRepository = postTagRepository;
         }
 
         public IActionResult Index()
@@ -32,6 +33,9 @@ namespace TabloidMVC.Controllers
         public IActionResult Details(int id)
         {
             var post = _postRepository.GetPublishedPostById(id);
+
+            List<PostTag> postTags = _postTagRepository.GetPostTagsbyPostId(id);
+
             if (post == null)
             {
                 int userId = GetCurrentUserProfileId();
@@ -41,7 +45,13 @@ namespace TabloidMVC.Controllers
                     return NotFound();
                 }
             }
-            return View(post);
+
+            PostDetailViewModel vm = new PostDetailViewModel
+            {
+                Post = post,
+                PostTags = postTags
+            };
+            return View(vm);
         }
 
         public IActionResult Create()
