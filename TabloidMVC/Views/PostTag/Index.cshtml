@@ -4,54 +4,57 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Manage Tags</h1>
+<div class="container pt-5">
+    <h1>Manage Tags</h1>
 
-<p>
-    @*<a asp-action="Create">Create New</a>*@
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Current Tags</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.PostTags) {
-        <tr>
-            <td>@item.Tag.Name</td>
-            <td>
-                @Html.ActionLink("Remove", "RemoveFromPost", null, new { tagId = item.TagId, postId = item.PostId })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>Add Tags</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Tags)
-        {
+    <p>
+        @*<a asp-action="Create">Create New</a>*@
+    </p>
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@item.Name</td>
-            <td>
-                    @*Calls AddToPost function in PostTag Controll - has no view*@
-                    @*Adds posttag on click*@
-                @Html.ActionLink("Add", "AddToPost", null, new { tagId = item.Id, postId = @Model.Post.Id })
-            </td>
+                <th>Current Tags</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.PostTags)
+            {
+                <tr>
+                    <td>@item.Tag.Name</td>
+                    <td>
+                        @Html.ActionLink("Remove", "RemoveFromPost", null, new { tagId = item.TagId, postId = item.PostId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<div>
-    <a asp-controller="Post" asp-action="Details" asp-route-id="@Model.Post.Id" class="btn btn-outline-primary mx-1" title="View">
-        Back To Post
-    </a>
+    <table class="table table-striped mt-5">
+        <thead>
+            <tr>
+                <th>Add Tags</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Tags)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>
+                        @*Calls AddToPost function in PostTag Controll - has no view*@
+                        @*Adds posttag on click*@
+                        @Html.ActionLink("Add", "AddToPost", null, new { tagId = item.Id, postId = @Model.Post.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div>
+        <a asp-controller="Post" asp-action="Details" asp-route-id="@Model.Post.Id" class="btn btn-outline-primary mx-1" title="View">
+            Back To Post
+        </a>
+    </div>
 </div>
