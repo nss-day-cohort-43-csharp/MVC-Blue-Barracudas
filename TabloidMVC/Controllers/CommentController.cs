@@ -90,23 +90,33 @@ namespace TabloidMVC.Controllers
         // GET: Comment/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            //get the comment
+            Comment comment = _commentRepo.GetCommentById(id);
+
+            //if null, return not found
+            if(comment == null)
+            {
+                return NotFound();
+            }
+
+            //view edit page of comment
+            return View(comment);
         }
 
         // POST: Comment/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Comment comment)
         {
             try
             {
                 // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Index));
+                _commentRepo.Edit(comment);
+                return RedirectToAction(nameof(Index), new { postId = comment.PostId });
             }
             catch
             {
-                return View();
+                return View(comment);
             }
         }
 

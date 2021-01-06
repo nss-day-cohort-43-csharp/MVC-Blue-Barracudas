@@ -82,6 +82,7 @@ namespace TabloidMVC.Repositories
             }
         }
 
+
         public Comment GetCommentById(int id)
         {
             // start a connection
@@ -120,11 +121,10 @@ namespace TabloidMVC.Repositories
                     }
                     //return null if there is no data to read
                     reader.Close();
-                    return comment;          
+                    return comment;
                 }
             }
         }
-
 
         // adds a given comment to the database
         public void Add(Comment comment)
@@ -149,6 +149,32 @@ namespace TabloidMVC.Repositories
                     //execute the insert command
                     cmd.ExecuteNonQuery();
 
+                }
+            }
+        }
+
+        public void Edit(Comment comment)
+        {
+            // create and open a connection
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                //create a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // create the sql command
+                    cmd.CommandText = @"UPDATE Comment
+                                        Set
+                                             [Subject] = @subject,
+                                             Content = @content
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", comment.Id);
+                    cmd.Parameters.AddWithValue("@subject", comment.Subject);
+                    cmd.Parameters.AddWithValue("@content", comment.Content);
+
+                    //execute the edit command
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
