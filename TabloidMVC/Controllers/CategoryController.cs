@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using TabloidMVC.Models;
@@ -41,7 +42,24 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                _categoryRepo.Add(category);
+                List<Category> categories = _categoryRepo.GetAll();
+                bool isDuplicate = false;
+                
+                foreach (Category c in categories)
+                {
+                    if (c.Name.ToLower() == category.Name.ToLower())
+                    {
+                        isDuplicate = true;
+                    }
+                }
+
+                if (isDuplicate == false)
+                {
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                    category.Name = textInfo.ToTitleCase(category.Name);
+
+                    _categoryRepo.Add(category);
+                }
 
                 return RedirectToAction(nameof(Index), "Category");
             }
@@ -71,7 +89,24 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                _categoryRepo.Edit(category);
+                List<Category> categories = _categoryRepo.GetAll();
+                bool isDuplicate = false;
+
+                foreach (Category c in categories)
+                {
+                    if (c.Name.ToLower() == category.Name.ToLower())
+                    {
+                        isDuplicate = true;
+                    }
+                }
+
+                if (isDuplicate == false)
+                {
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                    category.Name = textInfo.ToTitleCase(category.Name);
+
+                    _categoryRepo.Edit(category);
+                }
 
                 return RedirectToAction(nameof(Index), "Category");
             }
