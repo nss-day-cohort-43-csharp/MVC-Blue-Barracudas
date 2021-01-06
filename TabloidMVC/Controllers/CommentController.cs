@@ -56,11 +56,18 @@ namespace TabloidMVC.Controllers
         // GET: Comment/Create
         public ActionResult Create(int postId)
         {
-            Comment comment = new Comment()
+            
+            Post post = _postRepo.GetPublishedPostById(postId);
+
+            if(post != null)
             {
-                PostId = postId
-            };
-            return View(comment);
+                Comment comment = new Comment()
+                {
+                    PostId = postId
+                };
+                return View(comment);
+            }
+            return NotFound();     
         }
 
         // POST: Comment/Create
