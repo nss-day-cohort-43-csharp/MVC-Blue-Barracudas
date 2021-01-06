@@ -31,6 +31,11 @@ namespace TabloidMVC.Models
 
             Post post = _postRepo.GetPostById(postId);
 
+            if(post == null)
+            {
+                return NotFound();
+            }
+
             List<PostTag> postTags = _postTagRepo.GetPostTagsbyPostId(postId);;
 
             //holds tags that are not assigned to post
