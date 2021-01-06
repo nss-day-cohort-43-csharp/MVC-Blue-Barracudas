@@ -59,6 +59,73 @@ namespace TabloidMVC.Repositories
             }
         }
 
+        // remove the comment with the given id
+        public void Delete(int id)
+        {
+            // open a conneciton
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+
+                //start a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Comment
+                            WHERE Id = @id
+                        ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
+        public Comment GetCommentById(int id)
+        {
+            // start a connection
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                //start a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    //create and execute command
+                    cmd.CommandText = @"
+                        SELECT Id, PostId, UserProfileId, [Subject], Content, CreateDateTime
+                        FROM Comment
+                        WHERE Id = @id
+                    ";
+
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    //initialize the comment to null
+                    Comment comment = null;
+
+                    // read the data
+                    if (reader.Read())
+                    {
+                        comment = new Comment
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            PostId = reader.GetInt32(reader.GetOrdinal("PostId")),
+                            UserProfileId = reader.GetInt32(reader.GetOrdinal("UserProfileId")),
+                            Subject = reader.GetString(reader.GetOrdinal("Subject")),
+                            Content = reader.GetString(reader.GetOrdinal("Content")),
+                            CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
+                        };
+                    }
+                    //return null if there is no data to read
+                    reader.Close();
+                    return comment;          
+                }
+            }
+        }
+
+
         // adds a given comment to the database
         public void Add(Comment comment)
         {
