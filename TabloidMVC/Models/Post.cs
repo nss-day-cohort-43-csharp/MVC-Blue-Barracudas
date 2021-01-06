@@ -10,12 +10,14 @@ namespace TabloidMVC.Models
         public int Id { get; set; }
 
         [Required]
+        [StringLength(255, MinimumLength = 1)]
         public string Title { get; set; }
 
         [Required]
         public string Content { get; set; }
 
         [DisplayName("Header Image URL")]
+        [StringLength(255)]
         public string ImageLocation { get; set; }
 
         public DateTime CreateDateTime { get; set; }

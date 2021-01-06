@@ -113,7 +113,6 @@ namespace TabloidMVC.Controllers
             {
                 _postRepository.UpdatePost(postViewModel.Post);
 
-                //return RedirectToAction("/");
                 return RedirectToAction("Index");
         }
             catch (Exception ex)
@@ -127,7 +126,12 @@ namespace TabloidMVC.Controllers
         // GET: Post/Delete/5
         public ActionResult Delete(int id)
         {
-            Post post = _postRepository.GetPublishedPostById(id);
+
+            Post post = _postRepository.GetPostById(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
 
             return View(post);
         }
