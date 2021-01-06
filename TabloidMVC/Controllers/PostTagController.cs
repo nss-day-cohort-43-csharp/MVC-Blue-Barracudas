@@ -29,7 +29,7 @@ namespace TabloidMVC.Models
             //gey postId fro query string
             int postId = Int32.Parse(HttpContext.Request.Query["postId"]);
 
-            Post post = _postRepo.GetPublishedPostById(postId);
+            Post post = _postRepo.GetPostById(postId);
 
             List<PostTag> postTags = _postTagRepo.GetPostTagsbyPostId(postId);;
 
