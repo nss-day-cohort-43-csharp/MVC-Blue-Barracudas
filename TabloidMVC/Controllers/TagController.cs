@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using TabloidMVC.Models;
 using TabloidMVC.Repositories;
+using System.Linq;
+using System.Globalization;
 
 namespace TabloidMVC.Controllers
 {
@@ -36,9 +39,31 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                //TO DO dtop duplicate tags
-                _tagRepo.AddTag(tag);
+                List<Tag> tags = _tagRepo.GetAllTags();
+                bool isDuplicate = false;
+                //check for duplicate tags
+                foreach (Tag t in tags)
+                {
+                    if (t.Name.ToLower() == tag.Name.ToLower())
+                    {
+                        //get duplicate taginfo
+                        //return to list dont add duplicate
+                        isDuplicate = true; 
+                    }
+                }
+
+                //tag is nota duplicate
+                if (isDuplicate == false)
+                {
+                    //title case tag name
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                    tag.Name = textInfo.ToTitleCase(tag.Name);
+
+                    _tagRepo.AddTag(tag);
+                }
+
                 return RedirectToAction(nameof(Index));
+
             }
             catch (Exception ex)
             {
@@ -49,8 +74,17 @@ namespace TabloidMVC.Controllers
         // GET: TagController/Edit/5
         public ActionResult Edit(int id)
         {
-            Tag tag = _tagRepo.GetTagById(id);
-            return View(tag);
+            Tag validTag = _tagRepo.GetTagById(id);
+
+            if(validTag != null)
+            {
+                Tag tag = _tagRepo.GetTagById(id);
+                return View(tag);
+            } else
+            {
+                return NotFound();
+            }
+
         }
 
         // POST: TagController/Edit/5
@@ -60,7 +94,29 @@ namespace TabloidMVC.Controllers
         {
             try
             {
-                _tagRepo.Edit(tag);
+                List<Tag> tags = _tagRepo.GetAllTags();
+                bool isDuplicate = false;
+                //check for duplicate tags
+                foreach (Tag t in tags)
+                {
+                    if (t.Name.ToLower() == tag.Name.ToLower())
+                    {
+                        //get duplicate taginfo
+                        //return to list dont add duplicate
+                        isDuplicate = true;
+                    }
+                }
+
+                //edited tag is not a duplicate
+                if (isDuplicate == false)
+                {
+                    //title case tag name
+                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                    tag.Name = textInfo.ToTitleCase(tag.Name);
+
+                    _tagRepo.Edit(tag);
+                }
+           
                 return RedirectToAction(nameof(Index));
             }
             catch
