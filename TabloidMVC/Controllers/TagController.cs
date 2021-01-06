@@ -74,8 +74,28 @@ namespace TabloidMVC.Controllers
         // GET: TagController/Edit/5
         public ActionResult Edit(int id)
         {
-            Tag tag = _tagRepo.GetTagById(id);
-            return View(tag);
+            List<Tag> tags = _tagRepo.GetAllTags();
+            int validTag = 0;
+
+            //check if tag id is in the database
+            foreach(Tag t in tags)
+            {
+                if(t.Id == id)
+                {
+                    validTag = id;
+                }
+            }
+
+
+            if(validTag == id)
+            {
+                Tag tag = _tagRepo.GetTagById(id);
+                return View(tag);
+            } else
+            {
+                return NotFound();
+            }
+
         }
 
         // POST: TagController/Edit/5
