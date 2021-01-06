@@ -21,7 +21,7 @@
         <tr>
             <td>@item.Tag.Name</td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Remove", "RemoveFromPost", null, new { tagId = item.TagId, postId = item.PostId })
             </td>
         </tr>
 }
@@ -52,6 +52,6 @@
 
 <div>
     <a asp-controller="Post" asp-action="Details" asp-route-id="@Model.Post.Id" class="btn btn-outline-primary mx-1" title="View">
-        Save
+        Back To Post
     </a>
 </div>

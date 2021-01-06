@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using TabloidMVC.Repositories;
 using TabloidMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace TabloidMVC.Models
 {
@@ -28,7 +29,12 @@ namespace TabloidMVC.Models
             //gey postId fro query string
             int postId = Int32.Parse(HttpContext.Request.Query["postId"]);
 
-            Post post = _postRepo.GetPublishedPostById(postId);
+            Post post = _postRepo.GetPostById(postId);
+
+            if(post == null)
+            {
+                return NotFound();
+            }
 
             List<PostTag> postTags = _postTagRepo.GetPostTagsbyPostId(postId);;
 
@@ -81,6 +87,27 @@ namespace TabloidMVC.Models
             try
             { 
                 _postTagRepo.AddTag(postTag);
+                return RedirectToAction("Index", "PostTag", new { @postId = postTag.PostId });
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        public ActionResult RemoveFromPost(PostTag postTag)
+        {
+            try
+            {
+                //find tag relationshp id
+                PostTag foundPostTag = _postTagRepo.GetPostTagbyPostIdAndTagId(postTag.PostId, postTag.TagId);
+
+                //only delete if relatioship exist
+                if (foundPostTag != null)
+                {
+                    _postTagRepo.DeleteTag(foundPostTag.Id);
+                }
+
                 return RedirectToAction("Index", "PostTag", new { @postId = postTag.PostId });
             }
             catch (Exception ex)

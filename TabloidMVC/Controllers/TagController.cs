@@ -129,7 +129,16 @@ namespace TabloidMVC.Controllers
         public ActionResult Delete(int id)
         {
             Tag tag = _tagRepo.GetTagById(id);
-            return View(tag);
+
+            if(tag != null)
+            {
+                return View(tag);
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         // POST: TagController/Delete/5
