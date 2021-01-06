@@ -43,7 +43,10 @@
                     @Html.DisplayFor(modelItem => item.CreateDateTime)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new {  id=item.Id  }) |
+                    @if (Model.Post.PublishDateTime <= DateTime.Now)
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id });
+                    }
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
