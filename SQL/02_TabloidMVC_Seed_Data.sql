@@ -44,10 +44,13 @@ SET IDENTITY_INSERT [Post] OFF
 
 SET IDENTITY_INSERT [PostTag] ON
 INSERT INTO [PostTag] ([Id], [PostId], [TagId])
-VALUES (1, 1, 3);
+VALUES (1, 1, 3), (2, 1, 4), (3, 2, 3), (4, 2, 1), (5, 3, 2);
 SET IDENTITY_INSERT [PostTag] OFF
 
 SET IDENTITY_INSERT [Comment] ON
 INSERT INTO [Comment] ([Id], [PostId], [UserProfileId], [Subject], [Content], [CreateDateTime])
-VALUES (1, 1, 1, 'Article', 'One of the best reads in recent memory', SYSDATETIME());
+VALUES (1, 1, 1, 'Article', 'One of the best reads in recent memory', SYSDATETIME()), 
+	(2, 1, 1, 'Amazing', 'This brought me to tears', SYSDATETIME()),
+	(3, 1, 1, 'Life Changing', 'This has given me a whole new outlook on life', SYSDATETIME()),
+	(4, 2, 1, 'Dumb', 'What a ridiculous movie and statement', SYSDATETIME());
 SET IDENTITY_INSERT [Comment] OFF
