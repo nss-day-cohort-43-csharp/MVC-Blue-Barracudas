@@ -127,7 +127,7 @@ namespace TabloidMVC.Controllers
         // GET: Post/Delete/5
         public ActionResult Delete(int id)
         {
-            Post post = _postRepository.GetPublishedPostById(id);
+            Post post = _postRepository.GetPostById(id);
 
             return View(post);
         }
