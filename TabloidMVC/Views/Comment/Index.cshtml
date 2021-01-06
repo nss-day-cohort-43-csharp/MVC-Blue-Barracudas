@@ -4,51 +4,55 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>@Model.Post.Title</h1>
+<div class="container pt-5">
+    <h1>@Model.Post.Title</h1>
 
-<p>
-    <a asp-action="Create" asp-route-postId="@Model.Post.Id">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Subject
-            </th>
-            <th>
-                Content
-            </th>
-            <th>
-                User
-            </th>
-            <th>
-                Created On
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Comments) {
+    <p>
+        <a class="btn btn-primary" asp-action="Create" asp-route-postId="@Model.Post.Id">New Comment</a>
+    </p>
+
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Subject)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserProfile.DisplayName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreateDateTime)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })|
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
+                <th>
+                    Subject
+                </th>
+                <th>
+                    Content
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+                    Created On
+                </th>
+                <th></th>
             </tr>
-}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Comments)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Content)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserProfile.DisplayName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateDateTime)
+                    </td>
+                    <td style="text-align: right">
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-<a class="btn btn-outline-dark" href="@Url.Action("Details", "Post", new { Id = Model.Post.Id })">Back</a>
+    <a class="btn btn-outline-dark" href="@Url.Action("Details", "Post", new { Id = Model.Post.Id })">Back</a>
+</div>
