@@ -32,7 +32,9 @@ namespace TabloidMVC.Controllers
         // GET: CategoryController/Create
         public ActionResult Create()
         {
-            return View();
+            Category category = new Category();
+
+            return View(category);
         }
 
         // POST: CategoryController/Create
@@ -43,28 +45,25 @@ namespace TabloidMVC.Controllers
             try
             {
                 List<Category> categories = _categoryRepo.GetAll();
-                bool isDuplicate = false;
                 
                 foreach (Category c in categories)
                 {
-                    if (c.Name.ToLower() == category.Name.ToLower())
+                    if (c.Name.ToLower() == category.Name.Trim().ToLower())
                     {
-                        isDuplicate = true;
+                        throw new Exception();
                     }
                 }
 
-                if (isDuplicate == false)
-                {
-                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-                    category.Name = textInfo.ToTitleCase(category.Name);
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                category.Name = textInfo.ToTitleCase(category.Name);
 
-                    _categoryRepo.Add(category);
-                }
+                _categoryRepo.Add(category);
 
                 return RedirectToAction(nameof(Index), "Category");
             }
             catch
             {
+                category.ErrorMessage = "A category with that name already exists!";
                 return View(category);
             }
         }
@@ -90,28 +89,25 @@ namespace TabloidMVC.Controllers
             try
             {
                 List<Category> categories = _categoryRepo.GetAll();
-                bool isDuplicate = false;
 
                 foreach (Category c in categories)
                 {
-                    if (c.Name.ToLower() == category.Name.ToLower())
+                    if (c.Name.ToLower() == category.Name.Trim().ToLower())
                     {
-                        isDuplicate = true;
+                        throw new Exception();
                     }
                 }
 
-                if (isDuplicate == false)
-                {
-                    TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
-                    category.Name = textInfo.ToTitleCase(category.Name);
+                TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+                category.Name = textInfo.ToTitleCase(category.Name);
 
-                    _categoryRepo.Edit(category);
-                }
+                _categoryRepo.Edit(category);
 
                 return RedirectToAction(nameof(Index), "Category");
             }
             catch
             {
+                category.ErrorMessage = "A category with that name already exists!";
                 return View(category);
             }
         }

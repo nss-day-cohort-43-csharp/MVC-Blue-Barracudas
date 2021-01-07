@@ -5,6 +5,11 @@
 }
 @*A page that displays a form that allows the user to edit a category*@
 
+@if (!String.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
 <div class="container pt-5">
     <div class="row justify-content-center">
         <div class="card col-md-12 col-lg-8">
@@ -30,6 +35,6 @@
     </div>
 </div>
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
