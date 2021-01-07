@@ -40,7 +40,7 @@
         <section class="row post__tags">
             @foreach (PostTag postTag in Model.PostTags)
             {
-                <span class="badge badge-primary m-2 p-2">@postTag.Tag.Name</span>
+                <span class="badge badge-light m-2 p-2">@postTag.Tag.Name</span>
             }
         </section>
         @if (Model.Post.PublishDateTime <= DateTime.Now)
