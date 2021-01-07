@@ -100,8 +100,11 @@ namespace TabloidMVC.Controllers
             //get the comment
             Comment comment = _commentRepo.GetCommentById(id);
 
-            //if null, return not found
-            if(comment == null)
+            //get the current user
+            int userId = GetCurrentUserId();
+
+            //if null or current user is not the user who made the comment, return not found
+            if(comment == null || userId != comment.UserProfileId)
             {
                 return NotFound();
             }
@@ -130,8 +133,14 @@ namespace TabloidMVC.Controllers
         // GET: Comment/Delete/5
         public ActionResult Delete(int id)
         {
+            //get the comment
             Comment comment = _commentRepo.GetCommentById(id);
-            if(comment == null)
+
+            //get the current user
+            int userId = GetCurrentUserId();
+
+            //if null or current user is not the user who made the comment, return not found
+            if (comment == null || userId != comment.UserProfileId)
             {
                 return NotFound();
             }
