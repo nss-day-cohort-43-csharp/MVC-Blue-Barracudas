@@ -4,7 +4,10 @@
     ViewData["Title"] = "Create";
 }
 
-
+@if (!String.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
 
 <div class="container pt-5">
     <div class="row justify-content-center">
