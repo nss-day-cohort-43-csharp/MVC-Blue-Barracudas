@@ -22,7 +22,7 @@
             {
                 <tr>
                     <td>@item.Tag.Name</td>
-                    <td>
+                    <td style="text-align: right">
                         @Html.ActionLink("Remove", "RemoveFromPost", null, new { tagId = item.TagId, postId = item.PostId })
                     </td>
                 </tr>
@@ -42,7 +42,7 @@
             {
                 <tr>
                     <td>@item.Name</td>
-                    <td>
+                    <td style="text-align: right">
                         @*Calls AddToPost function in PostTag Controll - has no view*@
                         @*Adds posttag on click*@
                         @Html.ActionLink("Add", "AddToPost", null, new { tagId = item.Id, postId = @Model.Post.Id })
