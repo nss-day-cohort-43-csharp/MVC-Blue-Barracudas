@@ -8,5 +8,6 @@ namespace TabloidMVC.Models
         [Required]
         [StringLength(50, MinimumLength = 1)]
         public string Name { get; set; }
+        public string ErroeMessage { get; set; }
     }
 }

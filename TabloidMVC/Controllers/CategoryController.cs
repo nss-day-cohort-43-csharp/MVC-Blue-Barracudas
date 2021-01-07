@@ -47,7 +47,7 @@ namespace TabloidMVC.Controllers
                 
                 foreach (Category c in categories)
                 {
-                    if (c.Name.ToLower() == category.Name.ToLower())
+                    if (c.Name.ToLower() == category.Name.ToLower().Trim())
                     {
                         isDuplicate = true;
                     }
@@ -94,7 +94,7 @@ namespace TabloidMVC.Controllers
 
                 foreach (Category c in categories)
                 {
-                    if (c.Name.ToLower() == category.Name.ToLower())
+                    if (c.Name.ToLower() == category.Name.ToLower().Trim())
                     {
                         isDuplicate = true;
                     }

@@ -44,7 +44,7 @@ namespace TabloidMVC.Controllers
                 //check for duplicate tags
                 foreach (Tag t in tags)
                 {
-                    if (t.Name.ToLower() == tag.Name.ToLower())
+                    if (t.Name.ToLower() == tag.Name.ToLower().Trim())
                     {
                         //get duplicate taginfo
                         //return to list dont add duplicate
@@ -99,7 +99,7 @@ namespace TabloidMVC.Controllers
                 //check for duplicate tags
                 foreach (Tag t in tags)
                 {
-                    if (t.Name.ToLower() == tag.Name.ToLower())
+                    if (t.Name.ToLower() == tag.Name.ToLower().Trim())
                     {
                         //get duplicate taginfo
                         //return to list dont add duplicate
