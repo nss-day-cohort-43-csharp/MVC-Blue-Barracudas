@@ -29,7 +29,8 @@ namespace TabloidMVC.Controllers
         // GET: TagController/Create
         public ActionResult Create()
         {
-            return View();
+            Tag tag = new Tag();
+            return View(tag);
         }
 
         // POST: TagController/Create
@@ -40,33 +41,27 @@ namespace TabloidMVC.Controllers
             try
             {
                 List<Tag> tags = _tagRepo.GetAllTags();
-                bool isDuplicate = false;
                 //check for duplicate tags
                 foreach (Tag t in tags)
                 {
                     if (t.Name.ToLower() == tag.Name.ToLower().Trim())
                     {
-                        //get duplicate taginfo
-                        //return to list dont add duplicate
-                        isDuplicate = true; 
+                        throw new Exception();
                     }
                 }
 
-                //tag is nota duplicate
-                if (isDuplicate == false)
-                {
                     //title case tag name
                     TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                     tag.Name = textInfo.ToTitleCase(tag.Name);
 
                     _tagRepo.AddTag(tag);
-                }
 
                 return RedirectToAction(nameof(Index));
 
             }
             catch (Exception ex)
             {
+                tag.ErrorMessage = "A tag with that name already exists!";
                 return View(tag);
             }
         }
@@ -95,32 +90,27 @@ namespace TabloidMVC.Controllers
             try
             {
                 List<Tag> tags = _tagRepo.GetAllTags();
-                bool isDuplicate = false;
+
                 //check for duplicate tags
                 foreach (Tag t in tags)
                 {
                     if (t.Name.ToLower() == tag.Name.ToLower().Trim())
                     {
-                        //get duplicate taginfo
-                        //return to list dont add duplicate
-                        isDuplicate = true;
+                        throw new Exception();
                     }
                 }
 
-                //edited tag is not a duplicate
-                if (isDuplicate == false)
-                {
                     //title case tag name
                     TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
                     tag.Name = textInfo.ToTitleCase(tag.Name);
 
                     _tagRepo.Edit(tag);
-                }
            
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                tag.ErrorMessage = "A tag with that name already exists!";
                 return View(tag);
             }
         }
