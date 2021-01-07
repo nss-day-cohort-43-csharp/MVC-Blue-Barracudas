@@ -47,16 +47,21 @@
                         @Html.DisplayFor(modelItem => item.CreateDateTime)
                     </td>
                     <td style="text-align: right">
-                        @if(int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == item.UserProfileId)
+                        @if (int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) == item.UserProfileId)
                         {
-                        
+
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Edit">
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </a>
-                        
+                        }
+                        @if (int.Parse(User.FindFirstValue(ClaimTypes.Role)) == 1 && int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) != item.UserProfileId)
+                        {
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-primary mx-1" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </a>
                         }
                     </td>
                 </tr>

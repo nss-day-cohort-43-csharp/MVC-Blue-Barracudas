@@ -95,7 +95,7 @@ namespace TabloidMVC.Repositories
                     //create and execute command
                     cmd.CommandText = @"
                         SELECT Id, PostId, UserProfileId, [Subject], Content, CreateDateTime
-                        FROM Comment
+                        FROM Comment c
                         WHERE Id = @id
                     ";
 
